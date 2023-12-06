@@ -1,10 +1,12 @@
 import './App.css';
-import SignupPage from './pages/Signup';
+import Header from './components/Header';
+import { Outlet } from 'react-router-dom';
 
-function App() {
+function App() {  
   return (
     <div className="App">
-      < SignupPage />
+      <Header/>
+      <Outlet/>
     </div>
   );
 }
