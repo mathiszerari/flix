@@ -25,8 +25,8 @@ function App() {
         >
           Learn React
         </a>
-        <h1>API KEY: {apiKey}</h1>
-        <h1>API TOKEN: {apiToken}</h1>
+        <h1 className='text-red-500 underline'>API KEY: {apiKey}</h1>
+        <h1 className='text-red-500 underline'>API TOKEN: {apiToken}</h1>
       </header>
     </div>
   );
