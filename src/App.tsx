@@ -3,6 +3,13 @@ import logo from './logo.svg';
 import './App.css';
 
 function App() {
+  const apiKey = process.env.REACT_APP_API_KEY;
+  const apiToken = process.env.REACT_APP_API_TOKEN;
+
+  console.log('API KEY: ', apiKey);
+  console.log('API TOKEN: ', apiToken);
+  
+  
   return (
     <div className="App">
       <header className="App-header">
@@ -18,6 +25,8 @@ function App() {
         >
           Learn React
         </a>
+        <h1>API KEY: {apiKey}</h1>
+        <h1>API TOKEN: {apiToken}</h1>
       </header>
     </div>
   );
