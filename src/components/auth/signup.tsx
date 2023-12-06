@@ -1,22 +1,58 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../firebase';
+import { auth, db } from '../../firebase';
 import { Link } from 'react-router-dom';
+import {
+  getFirestore, collection, addDoc
+} from "firebase/firestore";
 
 const Signup = () => {
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [connected, setConnected] = useState(false);
 
+  const handlePasswordChange = (e: { target: { value: any; }; }) => {
+    const newPassword = e.target.value;
 
-  const signupAction = (e: React.FormEvent) => {
+    // Password strength requirements
+    const minLength = 8;
+    const hasUpperCase = /[A-Z]/.test(newPassword);
+    const hasLowerCase = /[a-z]/.test(newPassword);
+    const hasDigit = /\d/.test(newPassword);
+
+    if (newPassword.length < minLength) {
+      setPasswordError(`Password must be at least ${minLength} characters long.`);
+    } else if (!(hasUpperCase && hasLowerCase && hasDigit)) {
+      setPasswordError('Password must include uppercase, lowercase, and digit.');
+    } else {
+      setPasswordError('');
+    }
+
+    setPassword(newPassword);
+  };
+
+  const signupAction = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
+
+    if (passwordError) {
+      console.log('Invalid password');
+      setPasswordError('Password must include uppercase, lowercase, and digit.');
+      return;
+    }
+
     createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        console.log(userCredential);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    addDoc(collection(db, "users"), {
+      email: email,
+      password: password
+    })
+    .then(() => {
+      setConnected(true);
+      
+    })
+    .catch((error) => {
+      console.log(error);
+    });
   };
 
   return (
@@ -30,16 +66,16 @@ const Signup = () => {
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
-          type="text"
+          type="password"
           placeholder='Enter your password'
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={handlePasswordChange}
         />
-
+        {passwordError && <p className="error">{passwordError}</p>}
         <button type="submit">Submit</button>
       </form>
 
-      <button>
+      <button >
         <Link to="/login">Already have an account?</Link>
       </button>
     </div>
