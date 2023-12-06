@@ -8,7 +8,7 @@ export default function Header(){
                 <NavLink to="calendar">Calendar</NavLink>
                 <NavLink to="profile">Profile</NavLink>
                 <NavLink to="login">Login</NavLink>
-                <NavLink to="register">Register</NavLink>
+                <NavLink to="signup">Signup</NavLink>
             </nav>
         </header>
     )

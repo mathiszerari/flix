@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { auth } from '../firebase';
+import { auth } from '../../firebase';
 
 const Auth = () => {
   const [authUser, setAuthUser] = React.useState<any | null>(null);
@@ -11,7 +11,7 @@ const Auth = () => {
       } else {
         setAuthUser(null);
       }
-      
+
     })
   }, [])
 
