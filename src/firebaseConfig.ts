@@ -1,10 +1,21 @@
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "VOTRE_API_KEY",
-  authDomain: "VOTRE_AUTH_DOMAIN",
-  projectId: "VOTRE_PROJECT_ID",
-  storageBucket: "VOTRE_STORAGE_BUCKET",
-  messagingSenderId: "VOTRE_MESSAGING_SENDER_ID",
-  appId: "VOTRE_APP_ID",
+  apiKey: "AIzaSyDMYR4zH7Qe9aXOTWjQ-oeNqj43rz08qm0",
+  authDomain: "flix-94f84.firebaseapp.com",
+  projectId: "flix-94f84",
+  storageBucket: "flix-94f84.appspot.com",
+  messagingSenderId: "741241987834",
+  appId: "1:741241987834:web:c8cec8e4ece490d2dd1f43"
 };
 
-export default firebaseConfig;
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+// Initialize Firebase Authentication and get a reference to the service
+export const auth = getAuth(app);

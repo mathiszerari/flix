@@ -1,7 +1,11 @@
-export default function Login(){
-    return(
-        <div>
-            <h1>Login</h1>
-        </div>
-    )
+import Login from "../components/auth/login";
+import Signup from "../components/auth/signup";
+
+export default function LoginPage(){ 
+  return(
+      <div>
+        <Signup />
+        <Login />
+      </div>
+  )
 }
