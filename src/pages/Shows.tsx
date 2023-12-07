@@ -13,6 +13,7 @@ export default function Shows() {
   let [userFavorites, setUserFavorite] = useState([]);
   const [favorite, setFavorite] = useState(false);
   const currentUser = auth.currentUser;
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchFavorites = async () => {
@@ -36,6 +37,15 @@ export default function Shows() {
 
     fetchFavorites();
   }, []);
+
+  useEffect(() => {
+    const checkAndFetchData = async () => {
+      await checkFavorite();
+    };
+  
+    checkAndFetchData();
+  }, [params.showId, currentUser, currentShow, userFavorites]);
+  
 
   useEffect(() => {
     const getCurrentShowData = async () => {
@@ -77,20 +87,30 @@ export default function Shows() {
 
   const checkFavorite = async () => {
     try {
-      console.log('passsssssss');
-  
+      setLoading(true); // Démarre le loader
+    
       if (currentUser) {
         const userDoc = doc(db, "users", currentUser.uid);
         const userSnapshot = await getDoc(userDoc);
         if (userSnapshot) {
-          // Access the id property safely using optional chaining and provide a default value
-          setFavorite(userFavorites!.find(id => id === currentShow?.id ?? undefined) ?? true);
+          const fix = userFavorites!.find((id) => id === currentShow?.id);
+          if (fix) {
+            console.log('Ce show est dans ma liste');
+            setFavorite(prevFavorite => {
+              if (!prevFavorite) return true;
+              return prevFavorite;
+            });
+          } else {
+            console.log('Ce show n\'est pas dans ma liste');
+          }
         }
       }
     } catch (error) {
       console.error("Error checking favorite:", error);
+    } finally {
+      setLoading(false); // Arrête le loader, que l'appel réussisse ou échoue
     }
-  };    
+  };        
 
   const addFavorite = async () => {
     try {
@@ -140,6 +160,8 @@ export default function Shows() {
           setFavorite(false);
         } else {
           console.log("User document not found");
+          console.log('');
+          
         }
       }
     } catch (error) {
@@ -149,6 +171,7 @@ export default function Shows() {
 
   return (
     <div>
+      {loading && <p>Loading...</p>}
       <div>
         <h1>{currentShow?.name}</h1>
         <p>{currentShow?.genres}</p>

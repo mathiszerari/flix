@@ -1,11 +1,28 @@
 import { NavLink } from "react-router-dom";
 import { auth } from "../firebase";
 import SearchBar from "./search/SearchBar";
+import { useEffect, useState } from "react";
 
 export default function Header() {
-    const email = auth.currentUser?.email
-    console.log(email);
+  const [user, setUser]: any = useState(null);
+  const [email, setEmail]: any = useState(null);
+
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged((user) => {
+          if (user) {
+            // L'utilisateur est connecté
+            setUser(user);
+            console.log(user);
+            setEmail(user.email);
+          } else {
+            // L'utilisateur n'est pas connecté
+            setUser(null);
+          }
+        });
     
+        // Nettoyage de l'effet lorsque le composant est démonté
+        return () => unsubscribe();
+    }, []);
 
   return (
     <header>
