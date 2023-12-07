@@ -7,6 +7,7 @@ const Profile = () => {
   const [newEmail, setNewEmail] = useState('');
   const email = auth.currentUser?.email;
   const emailVerified = auth.currentUser?.emailVerified;
+  const [receiveUpdates, setReceiveUpdates] = useState(true);
   console.log(email);
   
   console.log(auth.currentUser?.emailVerified);
@@ -69,6 +70,18 @@ const Profile = () => {
         >
           Changement de mot de passe
         </button>
+      </div>
+      <div className='flex flex-col mx-auto w-2/3 p-4 mt-16 bg-gray-300 rounded-3xl'>
+        <span className='text-black text-2xl p-2'>Notification</span>
+
+        <div className='flex justify-around py-4 bg-gray-200 rounded-3xl'>
+          <span className='text-black'>New show release</span>
+          {receiveUpdates ? (
+            <button type="button" className="text-white bg-gradient-to-r from-green-500 via-green-600 to-green-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"></button>
+            ) : (
+            <button type="button" className="text-white bg-gradient-to-r from-gray-500 via-gray-600 to-gray-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-gray-300 dark:focus:ring-gray-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"></button>
+          )}
+        </div>
       </div>
     </div>
   );
