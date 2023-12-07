@@ -7,6 +7,6 @@ export default interface ShowDetailledModel{
     voteAverage: number;
     description: string;
     //TO DO need to create a Genre Model
-    genres: Array<{}>;
-    seasons: SeasonModel[];
+    genres: string[];
+    seasonsInfos: SeasonModel[];
 }
