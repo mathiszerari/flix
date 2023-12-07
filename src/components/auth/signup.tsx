@@ -50,7 +50,8 @@ const Signup = () => {
       // Add user data to Firestore
       await addDoc(collection(db, "users"), {
         email: email,
-        password: password
+        password: password,
+        favorites: []
       });
   
       setConnected(true);
