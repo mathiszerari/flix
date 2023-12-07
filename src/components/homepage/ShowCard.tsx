@@ -7,7 +7,7 @@ interface Props{
 
 export default function ShowCard({show}:Props){
     return(
-        <NavLink to={`shows/${show.id}`}>
+        <NavLink to={`/shows/${show.id}`}>
             <div>
             <img src={show.image} alt={show.title} />
             <div>

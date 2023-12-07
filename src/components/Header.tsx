@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { auth } from "../firebase";
+import SearchBar from "./search/SearchBar";
 
 export default function Header() {
     const email = auth.currentUser?.email
@@ -11,6 +12,7 @@ export default function Header() {
       <nav className="flex items-center justify-around mt-4">
         <NavLink to="shows/1">Shows</NavLink>
         <NavLink to="calendar">Calendar</NavLink>
+        <SearchBar/>
         
         {/* Condition pour afficher ou cacher les liens */}
         {email ? null : (

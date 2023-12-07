@@ -21,7 +21,7 @@ export default function ShowListSection({ url, sectionTitle }: Props) {
             const formattedData = data.results.map((show: any) => ({
                 id: show.id,
                 title: show.name,
-                image: `https://image.tmdb.org/t/p/w500/${show.backdrop_path}`,
+                image: `https://image.tmdb.org/t/p/w500${show.backdrop_path}`,
                 rating: show.vote_average,
                 date: show.first_air_date,
                 genres: genres.filter((genre)=> show.genre_ids.includes(genre.id)).map((genre) => genre.name)
