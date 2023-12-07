@@ -1,9 +1,7 @@
 import { createContext, useEffect, useState } from "react";
+import { Genres } from "../models/GenreModel";
 
-interface Genres {
-  id: number;
-  name: string;
-}
+
 
 export const GenresContext = createContext([] as Genres[])
 
@@ -22,9 +20,12 @@ export function GenresProvider({ children }: any) {
   }, [])
 
   return (
+    genresApi.length !== 0 ? (
     <GenresContext.Provider value={genresApi}>
       {children}
-    </GenresContext.Provider>
+    </GenresContext.Provider>) 
+    : (<h1>Loading...</h1>) 
+    
   )
 
 
