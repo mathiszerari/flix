@@ -9,6 +9,7 @@ import {
 const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [connected, setConnected] = useState(false);
 
@@ -28,32 +29,31 @@ const Signup = () => {
     } else {
       setPasswordError('');
     }
-
     setPassword(newPassword);
   };
 
-  const signupAction = (e: { preventDefault: () => void; }) => {
-    e.preventDefault();
-
-    if (passwordError) {
-      console.log('Invalid password');
-      setPasswordError('Password must include uppercase, lowercase, and digit.');
-      return;
-    }
-
-    createUserWithEmailAndPassword(auth, email, password)
-    addDoc(collection(db, "users"), {
-      email: email,
-      password: password
-    })
-    .then(() => {
+  const signupAction = async (e: { preventDefault: () => void; }) => {
+    try {
+      e.preventDefault();
+  
+      if (passwordError) {
+        console.log('Invalid password');
+        setPasswordError('Password must include uppercase, lowercase, and digit.');
+        return;
+      }
+  
+      await createUserWithEmailAndPassword(auth, email, password);
+  
+      await addDoc(collection(db, "users"), {
+        email: email,
+        password: password
+      });
+  
       setConnected(true);
-      
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  };
+    } catch (error) {
+      setEmailError('Email already used');
+    }
+  };  
 
   return (
     <div className='auth'>
@@ -71,6 +71,7 @@ const Signup = () => {
           value={password}
           onChange={handlePasswordChange}
         />
+        {emailError && <p className="error">{emailError}</p>}
         {passwordError && <p className="error">{passwordError}</p>}
         <button type="submit">Submit</button>
       </form>
