@@ -26,7 +26,6 @@ export default function SeasonSection({ seasonInfo, showId }: Props) {
         } catch (error) {
             console.error("error", error)
         }
-
     }
 
     const getAllEpisodesData = async () => {
