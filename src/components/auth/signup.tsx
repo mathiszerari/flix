@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { auth, db } from '../../firebase';
 import { Link } from 'react-router-dom';
 import {
@@ -42,8 +42,12 @@ const Signup = () => {
         return;
       }
   
-      await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
   
+      // Send email verification
+      await sendEmailVerification(userCredential.user);
+  
+      // Add user data to Firestore
       await addDoc(collection(db, "users"), {
         email: email,
         password: password
@@ -53,7 +57,7 @@ const Signup = () => {
     } catch (error) {
       setEmailError('Email already used');
     }
-  };  
+  };   
 
   return (
     <div className='auth'>
