@@ -23,6 +23,7 @@ export default function Header() {
         {email ? (
           // Contenu à afficher si l'utilisateur est connecté
           <>
+            <NavLink to="favorites">Favorites</NavLink>
             <div className='w-12 h-12'>
               <NavLink to="profile">
                 <img src={`https://api.dicebear.com/7.x/thumbs/svg?seed=${email}`} alt=""

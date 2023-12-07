@@ -10,6 +10,7 @@ import Profile from './pages/Profile';
 import LoginPage from './pages/Login';
 import SignupPage from './pages/Signup';
 import Homepage from './pages/Homepage';
+import FavoritePage from './pages/Favorite';
 
 const router = createBrowserRouter([
   {
@@ -24,7 +25,6 @@ const router = createBrowserRouter([
         path: "calendar",
         element: <Calendar/>
       },
-
       {
         path: "shows/:showId",
         element: <Shows/>
@@ -32,6 +32,10 @@ const router = createBrowserRouter([
       {
         path: "profile",
         element: <Profile/>
+      },
+      {
+        path: "favorites",
+        element: <FavoritePage/>
       }
     ]
   },
