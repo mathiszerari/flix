@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../firebase';
 import { Link } from 'react-router-dom';
@@ -6,16 +6,22 @@ import { Link } from 'react-router-dom';
 const Login = () => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [authError, setAuthError] = useState('');
 
-  const loginAction = (e: React.FormEvent) => {
-    e.preventDefault();
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        console.log(userCredential);
-      }).catch((error) => {
-        console.log(error);
-      })
+  const loginAction = async (e: React.FormEvent) => {
+    try {
+      e.preventDefault();
+      
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      
+      console.log(userCredential);
+    } catch (error) {
+      // Gérer les erreurs ici
+      console.error('Erreur lors de la connexion :', error);
+      setAuthError('Email ou mot de passe incorrect');
+    }
   };
+  
 
   return (
     <div className='auth'>
@@ -30,6 +36,7 @@ const Login = () => {
 
         <button type="submit">Submit</button>
       </form>
+      {authError && <p className="error">{authError}</p>}
       <Link to="/signup">Don't have an account ?</Link>
     </div>
   );
