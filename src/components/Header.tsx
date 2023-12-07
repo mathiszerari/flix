@@ -27,9 +27,8 @@ export default function Header() {
   return (
     <header>
       <nav className="flex items-center justify-around mt-4">
-        <NavLink to="shows/1">Shows</NavLink>
-        <NavLink to="calendar">Calendar</NavLink>
         <NavLink to="/">Home</NavLink>
+        <NavLink to="calendar">Calendar</NavLink>
         <SearchBar/>
         
         {/* Condition pour afficher ou cacher les liens */}
