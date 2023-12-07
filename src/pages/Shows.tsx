@@ -1,17 +1,41 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useRouteLoaderData } from "react-router-dom";
 import ShowDetailledModel from "../models/ShowDetailledModel";
 import { Genres } from "../models/GenreModel";
 import SeasonSection from "../components/showdetails/SeasonSection";
 import SeasonModel from "../models/SeasonModel";
-import { collection, doc, getDoc, setDoc, query, where, getDocs, updateDoc } from "firebase/firestore";  // Corrected imports
+import { collection, doc, getDoc, updateDoc, query, where, getDocs } from "firebase/firestore";
 import { auth, db } from "../firebase";
 
 export default function Shows() {
   const params = useParams();
   const [currentShow, setCurrentShow] = useState<ShowDetailledModel>();
+  let [userFavorites, setUserFavorite] = useState([]);
   const [favorite, setFavorite] = useState(false);
   const currentUser = auth.currentUser;
+
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      try {
+        if (auth.currentUser) {
+          const userRef = collection(db, 'users');
+          const q = query(userRef, where('email', '==', auth.currentUser.email));
+          const querySnapshot = await getDocs(q);
+
+          if (!querySnapshot.empty) {
+            const userData = querySnapshot.docs[0].data();
+            userFavorites = userData.favorites || [];
+            setUserFavorite(userFavorites);
+            console.log(userFavorites);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching favorites:', error);
+      }
+    };
+
+    fetchFavorites();
+  }, []);
 
   useEffect(() => {
     const getCurrentShowData = async () => {
@@ -40,6 +64,9 @@ export default function Shows() {
         };
 
         setCurrentShow(formattedData);
+
+        // Check if the show is in favorites when the component loads
+        checkFavorite();
       } catch (error) {
         console.error(error);
       }
@@ -48,25 +75,22 @@ export default function Shows() {
     getCurrentShowData();
   }, [params.showId]);
 
-  useEffect(() => {
-    const checkFavorite = async () => {
+  const checkFavorite = async () => {
+    try {
+      console.log('passsssssss');
+  
       if (currentUser) {
-        try {
-          const userDoc = doc(db, "users", currentUser.uid);
-          const userSnapshot = await getDoc(userDoc);
-
-          if (userSnapshot.exists()) {
-            const userData = userSnapshot.data();
-            setFavorite(userData.favorites?.includes(currentShow?.id) || false);
-          }
-        } catch (error) {
-          console.error("Error checking favorite:", error);
+        const userDoc = doc(db, "users", currentUser.uid);
+        const userSnapshot = await getDoc(userDoc);
+        if (userSnapshot) {
+          // Access the id property safely using optional chaining and provide a default value
+          setFavorite(userFavorites!.find(id => id === currentShow?.id ?? undefined) ?? true);
         }
       }
-    };
-
-    checkFavorite();
-  }, [currentUser, currentShow?.id]);
+    } catch (error) {
+      console.error("Error checking favorite:", error);
+    }
+  };    
 
   const addFavorite = async () => {
     try {
@@ -74,15 +98,15 @@ export default function Shows() {
         // Query for the user document based on email
         const q = query(collection(db, "users"), where("email", "==", currentUser.email));
         const querySnapshot = await getDocs(q);
-  
+
         if (!querySnapshot.empty) {
           const userDoc = querySnapshot.docs[0].ref;
-  
+
           // Update the user document with the new favorite
           await updateDoc(userDoc, {
             favorites: [...(querySnapshot.docs[0].data().favorites || []), currentShow?.id],
           });
-  
+
           // Update the local state
           setFavorite(true);
         } else {
@@ -92,29 +116,36 @@ export default function Shows() {
     } catch (error) {
       console.log("error", error);
     }
-  };   
+  };
 
-  const cancelFavorite = () => {
+  const cancelFavorite = async () => {
     try {
-      if (currentUser) {
-        const userDoc = doc(db, "users", currentUser.uid);
-
-        setDoc(
-          userDoc,
-          {
-            favorites: (currentUser.favorites || []).filter(
-              (fav: number) => fav !== currentShow?.id
-            ),
-          },
-          { merge: true }
-        );
-
-        setFavorite(false);
+      if (currentUser && currentShow) {
+        // Query for the user document based on email
+        const q = query(collection(db, "users"), where("email", "==", currentUser.email));
+        const querySnapshot = await getDocs(q);
+  
+        if (!querySnapshot.empty) {
+          const userDoc = querySnapshot.docs[0].ref;
+          
+          // Check if currentShow.id is in the favorites array
+          const updatedFavorites = (querySnapshot.docs[0].data().favorites || []).filter(
+            (fav: number) => fav !== currentShow.id
+          );
+  
+          // Update the user document with the new favorites
+          await updateDoc(userDoc, { favorites: updatedFavorites });
+  
+          // Update the local state
+          setFavorite(false);
+        } else {
+          console.log("User document not found");
+        }
       }
     } catch (error) {
-      console.log("error", error);
+      console.log("Error canceling favorite:", error);
     }
-  };
+  };   
 
   return (
     <div>
