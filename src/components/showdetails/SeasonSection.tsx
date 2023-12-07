@@ -17,7 +17,7 @@ export default function SeasonSection({ seasonInfo, showId }: Props) {
             const data = await response.json()
             return {
                 title: data.name,
-                image: `https://image.tmdb.org/t/p/w500/${data.still_path}`,
+                image: `https://image.tmdb.org/t/p/w500${data.still_path}`,
                 date: data.air_date,
                 description: data.overview,
                 season: data.season_number,
