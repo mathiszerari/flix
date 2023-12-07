@@ -1,6 +1,25 @@
+import { useEffect, useState } from "react";
 import ShowListSection from "../components/homepage/ShowListSection";
+import { auth } from "../firebase";
 
-export default function Homepage(){
+export default function Homepage() {
+    const [user, setUser] : any = useState(null);
+
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged((user) => {
+          if (user) {
+            // L'utilisateur est connecté
+              setUser(user);
+              console.log(user);
+          } else {
+            // L'utilisateur n'est pas connecté
+            setUser(null);
+          }
+        });
+    
+        // Nettoyage de l'effet lorsque le composant est démonté
+        return () => unsubscribe();
+    }, []);
     
     const showsListSections = [
         {
