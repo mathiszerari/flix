@@ -37,7 +37,7 @@ export default function SearchPage() {
             date: show.first_air_date,
             genres: genres.filter((genre) => show.genre_ids.includes(genre.id)).map((genre) => genre.name)
         }))
-
+        
         setMaxPage(data.total_pages)
         setIsDataLoaded(true)
         setShowsList(formattedData)
@@ -45,6 +45,7 @@ export default function SearchPage() {
 
     const selectGenreFilter = (genreId: number) => {
         navigate('/search', { replace: true });
+
         setPageNumber(1)
         setGenreFilter(genreId)
     }
@@ -53,11 +54,18 @@ export default function SearchPage() {
         let url = ''
         if (titleParams) {
             // Get shows by title
+            console.log('Get by title');
+
+            url = `https://api.themoviedb.org/3/search/tv?query=${titleParams}&api_key=${process.env.REACT_APP_API_KEY}`;
+        } else if (genreFilterId) {
+            // Get shows by genre
+            console.log('Get by genre');
+            url = `https://api.themoviedb.org/3/discover/tv?api_key=${process.env.REACT_APP_API_KEY}&with_genres=${genreFilterId}`;
+            console.log(url);
             url = `https://api.themoviedb.org/3/search/tv?query=${titleParams}&api_key=${process.env.REACT_APP_API_KEY}&page=${pageNumber}`;
         } else if (genreFilterId) {
             // Get shows by genre
             url = `https://api.themoviedb.org/3/discover/tv?api_key=${process.env.REACT_APP_API_KEY}&with_genres=${genreFilterId}&page=${pageNumber}`;
-
         } else {
             // Get discover shows
             url = `https://api.themoviedb.org/3/discover/tv?api_key=${process.env.REACT_APP_API_KEY}&page=${pageNumber}`;

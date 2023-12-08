@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import ShowListSection from "../components/homepage/ShowListSection";
 import { auth } from "../firebase";
+import Notification from "../components/notifiation";
 
 const Loader = () => (
     <div className="flex items-center justify-center h-screen">
