@@ -105,7 +105,7 @@ export default function Calendar() {
         getWeeksShows()
     }, [])
     return (
-        <div>
+        <div className="grid grid-cols-4 gap-4 items-center">
             {
 
                 isDataLoaded ? (
