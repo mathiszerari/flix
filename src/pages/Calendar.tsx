@@ -4,6 +4,7 @@ import { Episode } from "../models/EpisodeModel";
 import { auth, db } from "../firebase";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import CalendarShowCard from "../components/calendar/CalendarShowCard";
+import EpisodeCard from "../components/showdetails/EpisodeCard";
 
 interface WeekDay {
     name: string;
@@ -20,6 +21,7 @@ const weekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Satur
 export default function Calendar() {
 
     const [weekEpisodes, setWeekEpisodes] = useState<daysShows[]>()
+    const [isDataLoaded, setIsDataLoaded] = useState(false)
 
     const getUsersFavoritesIds = async () => {
         try {
@@ -92,7 +94,7 @@ export default function Calendar() {
         if (nextEpisodes) {
             thisWeekEpisodes = weekDays.map((weekDay) => ({ day: weekDay, episodes: nextEpisodes?.filter((episode) => episode.date === weekDay.date) }) as daysShows)
         }
-
+        setIsDataLoaded(true)
         setWeekEpisodes(thisWeekEpisodes)
 
 
@@ -104,20 +106,30 @@ export default function Calendar() {
     }, [])
     return (
         <div>
-            <h1>Calendar</h1>
             {
-                weekEpisodes?.map((day, index) => (
-                    <div key={index}> 
-                        {day.day.name}
-                        <div>
-                            {
-                                day.episodes.map((episode, index) => (
-                                    <CalendarShowCard key={index} episode={episode}/>
-                                ))
-                            }
+
+                isDataLoaded ? (
+                    weekEpisodes?.map((day, index) => (
+                        <div key={index} className="mt-7">
+    
+                            <p className="text-2xl">{day.day.name}</p>
+                            
+                            <div className="min-h-[12rem] bg-zinc-800 rounded-xl mt-4 p-2 relative -z-10 flex flex-row gap-4">
+                                {
+                                    day.episodes.map((episode, index) => (
+                                        <div className="w-fit">
+                                            <EpisodeCard key={index} episode={episode}/>
+                                        </div>
+                                        
+                                    ))
+                                }
+                            </div>
                         </div>
-                    </div>
-                ))
+                    ))
+                ) : (
+                    <h1>Loading...</h1>
+                )
+                
             }
         </div>
     )

@@ -39,7 +39,6 @@ export default function SeasonSection({ seasonInfo, showId }: Props) {
                 const data = await getEpisodeData(i)
                 episodesData.push(data)
             }
-
             setIsDataLoaded(true)
             return episodesData as Episode[]
         } catch (error) {
