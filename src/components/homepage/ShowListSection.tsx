@@ -51,12 +51,9 @@ export default function ShowListSection({ url, sectionTitle }: Props) {
             {
                 showList?.map((show: any) => (
                     <ShowCard key={show.id} show={show}></ShowCard>
-                )
-                )
+                ))
             }
             </div>
-            
-
         </>
     )
 }
