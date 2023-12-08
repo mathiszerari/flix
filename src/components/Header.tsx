@@ -43,6 +43,7 @@ export default function Header() {
   }, []);
 
   return (
+<<<<<<< HEAD
     <div>
       <div className="hidden">
         {isLoadingNotification ? (
@@ -51,6 +52,21 @@ export default function Header() {
         ) : (
           // Render the Notification component when the loading is complete
           <Notification getNotification={setIsNotificationOpen} />
+=======
+    <header className="flex items-center justify-between">
+      <NavLink to="/">
+        <img className="w-16" src={flixlogo} alt="flix app logo" />
+      </NavLink>
+      <nav className="flex items-center justify-around mt-4 gap-4">
+        <SearchBar/>
+        <NavLink to="calendar">Calendar</NavLink>
+        {/* Condition pour afficher ou cacher les liens */}
+        {email ? null : (
+          <>
+            <NavLink to="login">Login</NavLink>
+            <NavLink to="signup">Signup</NavLink>
+          </>
+>>>>>>> efeddee (💄Home style)
         )}
       </div>
       <header className="flex items-center justify-between backdrop-blur-lg">
