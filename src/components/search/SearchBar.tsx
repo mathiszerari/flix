@@ -1,5 +1,7 @@
 import { useState } from "react"
 import {useNavigate } from "react-router-dom"
+import { MdOutlineSearch } from "react-icons/md";
+
 
 
 export default function SearchBar() {
@@ -13,7 +15,8 @@ export default function SearchBar() {
     }
     return (
         <label>
-            <input onKeyDown={(e)=>{handleKeyDown(e)}} type="text" value={searchText} onChange={(e) => { setSearchText(e.target.value) }} />
+            <MdOutlineSearch/>
+            <input className="bg-transparent border border-white rounded-full px-2 py-1 plac" onKeyDown={(e)=>{handleKeyDown(e)}} type="text" value={searchText} placeholder="Search your shows" onChange={(e) => { setSearchText(e.target.value) }} />
         </label>
     )
 }
