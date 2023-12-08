@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import SeasonModel from "../../models/SeasonModel";
 import { Episode } from "../../models/EpisodeModel";
 import EpisodeCard from "./EpisodeCard";
+import ShowCardSkeleton from "../ShowCardSkeleton";
+import EpisodeCardSkeleton from "../EpisodeCardSkeleton";
 
 interface Props {
     seasonInfo: SeasonModel;
@@ -10,6 +12,7 @@ interface Props {
 
 export default function SeasonSection({ seasonInfo, showId }: Props) {
     const [currentSeason, setCurrentSeason] = useState<Episode[]>()
+    const [isDataLoaded, setIsDataLoaded] = useState(false)
 
     const getEpisodeData = async (episodeNumber: number) => {
         try {
@@ -29,14 +32,20 @@ export default function SeasonSection({ seasonInfo, showId }: Props) {
     }
 
     const getAllEpisodesData = async () => {
-        const episodesData = []
+        try {
+            const episodesData = []
 
-        for (let i = 1; i <= seasonInfo.episodesCount; i++) {
-            const data = await getEpisodeData(i)
-            episodesData.push(data)
+            for (let i = 1; i <= seasonInfo.episodesCount; i++) {
+                const data = await getEpisodeData(i)
+                episodesData.push(data)
+            }
+
+            setIsDataLoaded(true)
+            return episodesData as Episode[]
+        } catch (error) {
+            console.error("error", error)
         }
 
-        return episodesData as Episode[]
 
     }
 
@@ -49,12 +58,22 @@ export default function SeasonSection({ seasonInfo, showId }: Props) {
     }, [])
 
     return (
-        <div>
-            <h2>{`Season ${seasonInfo.seasonNumber}`}</h2>
-            <div>
-                {currentSeason?.map((episode) => (
-                    <EpisodeCard key={episode.episodeNumber} episode={episode} />
-                ))}
+        <div className="mt-8">
+            <h2 className="text-3xl font-semibold">{`Season ${seasonInfo.seasonNumber}`}</h2>
+            <div className="flex flex-wrap gap-4 mt-4">
+                {
+                    isDataLoaded ? (
+                        currentSeason?.map((episode) => (
+                            <EpisodeCard key={episode.episodeNumber} episode={episode} />
+                        ))
+                    ) : (
+                        Array.from({ length: 4 }).map((index) => (
+                            <EpisodeCardSkeleton />
+                        ))
+
+                    )
+                }
+
             </div>
         </div>
     )

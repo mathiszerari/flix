@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import ShowCard from "./ShowCard";
 import { ShowMinimalModel } from "../../models/ShowMinimalModel"
 import { GenresContext } from "../../context/GenresContext";
+import ShowCardSkeleton from "../ShowCardSkeleton";
 
 interface Props {
     url: string,
@@ -10,7 +11,7 @@ interface Props {
 
 export default function ShowListSection({ url, sectionTitle }: Props) {
     const [showList, setShowList] = useState<ShowMinimalModel[]>()
-
+    const [isDataLoaded, setIsDataLoaded] = useState(false)
     const genres = useContext(GenresContext)
     
    
@@ -27,6 +28,7 @@ export default function ShowListSection({ url, sectionTitle }: Props) {
                 genres: genres.filter((genre)=> show.genre_ids.includes(genre.id)).map((genre) => genre.name)
             }))
 
+            setIsDataLoaded(true)
             return formattedData as ShowMinimalModel[]
         } catch (error) {
             console.error('error', error)
@@ -40,7 +42,6 @@ export default function ShowListSection({ url, sectionTitle }: Props) {
 
     useEffect(() => {
         setShowListData()
-        console.log(genres);
         
     }, [])
 
@@ -48,11 +49,20 @@ export default function ShowListSection({ url, sectionTitle }: Props) {
         <>
             <h2 className="text-2xl font-semibold mt-8">{sectionTitle}</h2>
             <div className="mt-4 flex flex-row flex-wrap justify-between gap-8">
-            {
-                showList?.map((show: any) => (
-                    <ShowCard key={show.id} show={show}></ShowCard>
+            {   
+                isDataLoaded ? (
+                    showList?.map((show: any) => (
+                        <ShowCard key={show.id} show={show}></ShowCard>
+                    )
+                    )
+                ) : (
+                    Array.from({length: 5}).map((index) => (
+                        <ShowCardSkeleton />
+                    ))
                 )
-                )
+                    
+                    
+                
             }
             </div>
             
