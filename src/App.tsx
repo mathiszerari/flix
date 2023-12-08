@@ -8,7 +8,7 @@ import { GenresProvider } from './context/GenresContext';
 
 function App() {
   return (
-    <div className="App px-6">
+    <div className="App px-6 pb-16">
       <GenresProvider>
         <Header />
         <Outlet />

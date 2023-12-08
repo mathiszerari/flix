@@ -42,10 +42,10 @@ export default function Shows() {
     const checkAndFetchData = async () => {
       await checkFavorite();
     };
-  
+
     checkAndFetchData();
   }, [params.showId, currentUser, currentShow, userFavorites]);
-  
+
 
   useEffect(() => {
     const getCurrentShowData = async () => {
@@ -66,10 +66,10 @@ export default function Shows() {
             .filter((season: any) => season.episode_count !== 0)
             .map(
               (season: any) =>
-                ({
-                  seasonNumber: season.season_number,
-                  episodesCount: season.episode_count,
-                } as SeasonModel)
+              ({
+                seasonNumber: season.season_number,
+                episodesCount: season.episode_count,
+              } as SeasonModel)
             ),
         };
 
@@ -88,7 +88,7 @@ export default function Shows() {
   const checkFavorite = async () => {
     try {
       setLoading(true); // Démarre le loader
-    
+
       if (currentUser) {
         const userDoc = doc(db, "users", currentUser.uid);
         const userSnapshot = await getDoc(userDoc);
@@ -110,7 +110,7 @@ export default function Shows() {
     } finally {
       setLoading(false); // Arrête le loader, que l'appel réussisse ou échoue
     }
-  };        
+  };
 
   const addFavorite = async () => {
     try {
@@ -144,63 +144,75 @@ export default function Shows() {
         // Query for the user document based on email
         const q = query(collection(db, "users"), where("email", "==", currentUser.email));
         const querySnapshot = await getDocs(q);
-  
+
         if (!querySnapshot.empty) {
           const userDoc = querySnapshot.docs[0].ref;
-          
+
           // Check if currentShow.id is in the favorites array
           const updatedFavorites = (querySnapshot.docs[0].data().favorites || []).filter(
             (fav: number) => fav !== currentShow.id
           );
-  
+
           // Update the user document with the new favorites
           await updateDoc(userDoc, { favorites: updatedFavorites });
-  
+
           // Update the local state
           setFavorite(false);
         } else {
           console.log("User document not found");
           console.log('');
-          
+
         }
       }
     } catch (error) {
       console.log("Error canceling favorite:", error);
     }
-  };   
+  };
 
   return (
-    <div>
+    <div className="">
       {loading && <p>Loading...</p>}
-      <div>
-        <h1>{currentShow?.name}</h1>
-        <p>{currentShow?.genres}</p>
-        <p>{currentShow?.description}</p>
-        <img src={currentShow?.image} alt={currentShow?.name} />
+      <div className="h-[50vh]">
+        <div className="mt-96 flex flex-col gap-4">
+          <h1 className="text-4xl font-bold">{currentShow?.name}</h1>
+          <p>{currentShow?.genres}</p>
+          <p className="w-[45%] shadow opacity-75">{currentShow?.description}</p>
+        </div>
+        <div className="absolute top-0 left-0 bg-gradient-to-t from-[#111111] to-transparent -z-10">
+          <div className="bg-gradient-to-t from-[#111111] to-transparent">
+            <img className="relative w-screen h-screen -z-20" src={currentShow?.image} alt={currentShow?.name} />
+          </div>
+
+        </div>
+
+        <div className="p-4">
+          {favorite ? (
+            <button
+              onClick={cancelFavorite}
+              type="button"
+              className="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+            >
+              Followed
+            </button>
+          ) : (
+            <button
+              onClick={addFavorite}
+              type="button"
+              className="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+            >
+              Add to Favorite
+            </button>
+          )}
+        </div>
       </div>
 
-      <div className="p-4">
-        {favorite ? (
-          <button
-            onClick={cancelFavorite}
-            type="button"
-            className="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-          >
-            Followed
-          </button>
-        ) : (
-          <button
-            onClick={addFavorite}
-            type="button"
-            className="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-          >
-            Add to Favorite
-          </button>
-        )}
+
+      <div>
+        {currentShow?.seasonsInfos.map((seasonInfo, index) => (
+          <SeasonSection key={index} seasonInfo={seasonInfo} showId={currentShow.id} />
+        ))}
       </div>
-      {currentShow?.seasonsInfos.map((seasonInfo, index) => (
-        <SeasonSection key={index} seasonInfo={seasonInfo} showId={currentShow.id} />
-      ))}
+
     </div>
   );
 }
