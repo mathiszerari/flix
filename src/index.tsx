@@ -7,9 +7,12 @@ import {RouterProvider, createBrowserRouter} from 'react-router-dom'
 import Shows from './pages/Shows';
 import Calendar from './pages/Calendar';
 import Profile from './pages/Profile';
-import Login from './pages/Login';
-import Register from './pages/Register';
+import LoginPage from './pages/Login';
+import SignupPage from './pages/Signup';
 import Homepage from './pages/Homepage';
+import FavoritePage from './pages/Favorite';
+import SearchPage from './pages/SearchPage';
+import NotificationPage from './pages/Notification';
 
 const router = createBrowserRouter([
   {
@@ -24,24 +27,35 @@ const router = createBrowserRouter([
         path: "calendar",
         element: <Calendar/>
       },
-
       {
-        path: "shows/:id",
+        path: "shows/:showId",
         element: <Shows/>
       },
       {
         path: "profile",
         element: <Profile/>
+      },
+      {
+        path: "favorites",
+        element: <FavoritePage/>
+      },
+      {
+        path: "notification",
+        element: <NotificationPage/>
+      },
+      {
+        path: "search",
+        element: <SearchPage/>
       }
     ]
   },
   {
     path: "/login",
-    element: <Login/>
+    element: <LoginPage />
   },
   {
-    path: "/register",
-    element: <Register/>
+    path: "/signup",
+    element: < SignupPage />
   }
   
 ])
