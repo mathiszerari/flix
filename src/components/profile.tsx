@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { auth } from '../firebase';
+import { useNavigate } from 'react-router-dom';
 
 const Loader = () => (
   <div className="flex items-center justify-center h-screen">
@@ -14,6 +15,7 @@ const Profile = () => {
   const email = auth.currentUser?.email;
   const emailVerified = auth.currentUser?.emailVerified;
   const [receiveUpdates, setReceiveUpdates] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,6 +42,11 @@ const Profile = () => {
     const user = auth.currentUser;
   };
 
+  const Logout = () => {
+    auth.signOut();
+    navigate('/login');
+  }
+
   if (isLoading) {
     return <Loader />;
   }
@@ -52,6 +59,12 @@ const Profile = () => {
             <img src={`https://api.dicebear.com/7.x/thumbs/svg?seed=${email}`} alt=""
               className="w-32 h-32 rounded-full" />
             <span className='text-xl text-gray-200 underline mt-10'>{email}</span>
+            <button type="button"
+              onClick={Logout}
+              className="absolute text-white bottom-8 bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+            >
+              Log out
+            </button>
           </div>
           {/* <div className='mt-16'>
             {isEditingEmail ? (
@@ -78,7 +91,7 @@ const Profile = () => {
               Changement de mot de passe
             </button>
           </div> */}
-          <div className='flex flex-col mx-auto w-2/3 p-4 mt-16 bg-gray-300 rounded-3xl'>
+          {/* <div className='flex flex-col mx-auto w-2/3 p-4 mt-16 bg-gray-300 rounded-3xl'>
             <span className='text-black text-2xl p-2'>Notification</span>
 
             <div className='flex justify-around py-4 bg-gray-200 rounded-3xl'>
@@ -89,7 +102,7 @@ const Profile = () => {
                 <button type="button" className="text-white bg-gradient-to-r from-gray-500 via-gray-600 to-gray-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-gray-300 dark:focus:ring-gray-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"></button>
               )}
             </div>
-          </div>
+          </div> */}
         </>
       )}
     </div>
