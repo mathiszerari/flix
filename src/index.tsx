@@ -12,6 +12,7 @@ import SignupPage from './pages/Signup';
 import Homepage from './pages/Homepage';
 import FavoritePage from './pages/Favorite';
 import SearchPage from './pages/SearchPage';
+import NotificationPage from './pages/Notification';
 
 const router = createBrowserRouter([
   {
@@ -40,7 +41,7 @@ const router = createBrowserRouter([
       },
       {
         path: "notification",
-        element: <FavoritePage/>
+        element: <NotificationPage/>
       },
       {
         path: "search",
