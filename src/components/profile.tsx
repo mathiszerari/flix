@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { auth } from '../firebase';
-import { updateEmail } from 'firebase/auth';
 
 const Loader = () => (
   <div className="flex items-center justify-center h-screen">
@@ -16,6 +15,21 @@ const Profile = () => {
   const emailVerified = auth.currentUser?.emailVerified;
   const [receiveUpdates, setReceiveUpdates] = useState(true);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      // Perform any asynchronous operations here
+      // For example, you might want to fetch additional user data
+
+      // Simulating an asynchronous operation with setTimeout
+      setTimeout(() => {
+        // Set loading to false when the data is ready
+        setIsLoading(false);
+      }, 1000);
+    };
+
+    fetchData();
+  }, []); // Empty dependency array ensures that this effect runs only once on mount
+
   const handleEmailChange = () => {
     setIsEditingEmail(true);
   };
@@ -24,19 +38,11 @@ const Profile = () => {
     setIsLoading(true);
 
     const user = auth.currentUser;
-
-    if (user?.emailVerified) {
-      updateEmail(auth.currentUser!, newEmail)
-        .then(() => {
-          setIsEditingEmail(false);
-          setIsLoading(false);
-        })
-        .catch((error: any) => {
-          console.error('Erreur lors de la mise à jour de l\'email :', error.message);
-          setIsLoading(false);
-        });
-    }
   };
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <div className='profile mt-8'>
