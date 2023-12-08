@@ -14,7 +14,7 @@ export default function ShowCard({ show }: Props) {
 
     return (
 
-        <NavLink to={`/shows/${show.id}`} className="w-fit relative bg-gradient-to-t from-black to-transparent to-[30%]">
+        <NavLink to={`/shows/${show.id}`} className="w-fit relative bg-gradient-to-t from-black to-transparent to-[30%] hover:scale-110 transition-all">
             <div className="w-80 h-[30rem] flex items-end">
                 <img className="absolute -z-10 top-0 h-full object-cover" src={show.image} alt={show.title} />
                 <div className="p-4 backdrop-blur-lg flex flex-col w-full">
