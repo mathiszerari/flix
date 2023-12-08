@@ -12,10 +12,10 @@ export default function NotificationPage(){
 
   return (
     <div className='notification'>
-      <Notification />
       {isLoading ? <Loader /> : (
         <>
           <span className='text-xl text-gray-200 underline mt-10'>Notifs</span>
+          <Notification />
         </>
       )}
     </div>

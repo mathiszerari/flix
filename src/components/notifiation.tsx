@@ -63,7 +63,7 @@ const Notification = ({ getNotification }: any) => {
     } catch (error) {
       console.error("error", error)
       console.log('salut');
-      
+
     }
 
   }
@@ -85,16 +85,11 @@ const Notification = ({ getNotification }: any) => {
   }, [])
 
   useEffect(() => {
-    if (nextEpisodes) {
-      console.log("nextEpisodes", nextEpisodes);
-      
-      if (nextEpisodes.length > 0) {
-        getNotification(true)
-        console.log("TRUE");
-      }
+    if (nextEpisodes && nextEpisodes.length > 0) {
+      if (getNotification) { getNotification(true) };
+      console.log("TRUE");
     }
-      
-  }, [nextEpisodes])
+  }, [nextEpisodes]);
 
   if (isLoading) {
     return <Loader />
