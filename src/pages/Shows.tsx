@@ -6,6 +6,7 @@ import SeasonSection from "../components/showdetails/SeasonSection";
 import SeasonModel from "../models/SeasonModel";
 import { collection, doc, getDoc, updateDoc, query, where, getDocs } from "firebase/firestore";
 import { auth, db } from "../firebase";
+import { MdStar } from "react-icons/md";
 
 export default function Shows() {
   const params = useParams();
@@ -175,7 +176,7 @@ export default function Shows() {
       <div className="h-[50vh]">
         <div className="mt-96 flex flex-col gap-4">
           <h1 className="text-4xl font-bold">{currentShow?.name}</h1>
-          <p>{currentShow?.genres}</p>
+          <p>{currentShow?.genres.map((genre) => (<span>{genre} </span>))}| {currentShow?.voteAverage} <MdStar className="inline w-6 h-6 text-amber-400"/></p>
           <p className="w-[45%] shadow opacity-75">{currentShow?.description}</p>
         </div>
         <div className="absolute top-0 left-0 bg-gradient-to-t from-[#111111] to-transparent -z-10">
