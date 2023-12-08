@@ -2,8 +2,15 @@ import { useEffect, useState } from "react";
 import ShowListSection from "../components/homepage/ShowListSection";
 import { auth } from "../firebase";
 
+const Loader = () => (
+    <div className="flex items-center justify-center h-screen">
+      <div className="loader"></div>
+    </div>
+);
+
 export default function Homepage() {
-    const [user, setUser] : any = useState(null);
+    const [user, setUser]: any = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -15,6 +22,7 @@ export default function Homepage() {
             // L'utilisateur n'est pas connecté
             setUser(null);
           }
+          setIsLoading(false);
         });
     
         // Nettoyage de l'effet lorsque le composant est démonté
@@ -35,6 +43,11 @@ export default function Homepage() {
             title: "Trending"
         }
     ]
+
+    if (isLoading) {
+        return <Loader />; // Display loader while user information is being loaded
+    }
+    
     return(
         <div>
             {showsListSections.map((section, index) => (
