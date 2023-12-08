@@ -69,22 +69,26 @@ const Notification = () => {
     getUsersFavoritesNextEpisodes()
     .then((episodes) => {
       console.log("episodes", episodes)
+      // filtre les épisodes qui sortent dans moins de 1j et met les dans une variable
+      const nextEpisodes = episodes?.filter((episode) => {
+        const date = new Date(episode.date)
+        const now = new Date()
+        const diffTime = Math.abs(now.getTime() - date.getTime());
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        return diffDays <= 2
+      })
+      console.log("nextEpisodes", nextEpisodes);
+      
     })
   }, [])
   
   if (isLoading) {
-    return <Loader />;
+    return <Loader />
   }
-
+  
   return (
-    <div className='notification'>
-      {isLoading ? <Loader /> : (
-        <>
-          <span className='text-xl text-gray-200 underline mt-10'>Notifs</span>
-        </>
-      )}
-    </div>
-  );
+    <div></div>
+  )
 };
 
 export default Notification;

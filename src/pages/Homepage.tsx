@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import ShowListSection from "../components/homepage/ShowListSection";
 import { auth } from "../firebase";
+import Notification from "../components/notifiation";
 
 const Loader = () => (
     <div className="flex items-center justify-center h-screen">
@@ -50,6 +51,7 @@ export default function Homepage() {
     
     return(
         <div>
+            <Notification />
             {showsListSections.map((section, index) => (
                 <ShowListSection key={index} url={section.apiUrl} sectionTitle={section.title} />
             ))}
