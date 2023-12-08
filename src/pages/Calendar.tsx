@@ -4,6 +4,7 @@ import { Episode } from "../models/EpisodeModel";
 import { auth, db } from "../firebase";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import CalendarShowCard from "../components/calendar/CalendarShowCard";
+import EpisodeCard from "../components/showdetails/EpisodeCard";
 
 interface WeekDay {
     name: string;
@@ -104,15 +105,21 @@ export default function Calendar() {
     }, [])
     return (
         <div>
-            <h1>Calendar</h1>
             {
+
+            
                 weekEpisodes?.map((day, index) => (
-                    <div key={index}> 
-                        {day.day.name}
-                        <div>
+                    <div key={index} className="mt-7">
+
+                        <p className="text-2xl">{day.day.name}</p>
+                        
+                        <div className="min-h-[12rem] bg-zinc-800 rounded-xl mt-4 p-2 relative -z-10 flex flex-row gap-4">
                             {
                                 day.episodes.map((episode, index) => (
-                                    <CalendarShowCard key={index} episode={episode}/>
+                                    <div className="w-fit">
+                                        <EpisodeCard key={index} episode={episode}/>
+                                    </div>
+                                    
                                 ))
                             }
                         </div>

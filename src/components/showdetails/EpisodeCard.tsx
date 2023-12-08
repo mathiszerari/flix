@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Episode } from "../../models/EpisodeModel";
 
 interface Props {
@@ -5,9 +6,19 @@ interface Props {
 }
 
 export default function EpisodeCard({ episode }: Props) {
+    
+    const [truncatedTitle, setTruncatedTitle] = useState('')
+    const [truncatedDescription, settruncatedDescription] = useState('')
 
-    const truncatedTitle = episode.title.length >= 20 ? episode.title.substring(0,20)+"..." : episode.title
-    const truncatedDescription = episode.description.length >=50 ? episode.description.substring(0,50)+"..." : episode.description 
+    useEffect(()=>{
+
+        if (episode.title && episode.description) {
+            setTruncatedTitle(episode.title.length >= 20 ? episode.title.substring(0,20)+"..." : episode.title)
+            settruncatedDescription(episode.description.length >=50 ? episode.description.substring(0,50)+"..." : episode.description )
+        }
+        
+    },[episode])
+
     return ( 
         <div className="w-fit relative bg-gradient-to-t from-black to-transparent to-[50%] h-60 aspect-video flex items-end">
             <img className="absolute top-0 left-0 w-full -z-10 " src={episode.image} alt="" />

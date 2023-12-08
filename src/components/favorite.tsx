@@ -74,8 +74,8 @@ const Favorite = () => {
 
   return (
     <div>
-      <span className='text-3xl p-6'>Favorites</span>
-      <div className="mt-4 flex flex-row flex-wrap justify-between gap-8">
+      <span className='text-3xl py-6'>Favorites</span>
+      <div className="mt-4 flex flex-row flex-wrap  gap-8">
         {showsData?.map((show: any) => (
           <ShowCard key={show.id} show={show}></ShowCard>
         ))}
