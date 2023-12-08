@@ -88,7 +88,6 @@ const Favorite = () => {
           <div key={index} className='show bg-gray-200 p-4 rounded-3xl'>
             <img src={currentShow?.image} alt={currentShow?.name} className='rounded-xl'/>
             <h1>{currentShow?.name}</h1>
-            <p>{currentShow?.genres}</p>
           </div>
         ))}
       </div>
