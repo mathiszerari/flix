@@ -51,7 +51,6 @@ export default function Homepage() {
     
     return(
         <div>
-            <Notification />
             {showsListSections.map((section, index) => (
                 <ShowListSection key={index} url={section.apiUrl} sectionTitle={section.title} />
             ))}
