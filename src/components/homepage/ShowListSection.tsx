@@ -21,7 +21,7 @@ export default function ShowListSection({ url, sectionTitle }: Props) {
             const formattedData = data.results.map((show: any) => ({
                 id: show.id,
                 title: show.name,
-                image: `https://image.tmdb.org/t/p/w500${show.backdrop_path}`,
+                image: `https://image.tmdb.org/t/p/w500${show.poster_path}`,
                 rating: show.vote_average,
                 date: show.first_air_date,
                 genres: genres.filter((genre)=> show.genre_ids.includes(genre.id)).map((genre) => genre.name)
@@ -46,13 +46,16 @@ export default function ShowListSection({ url, sectionTitle }: Props) {
 
     return (
         <>
-            <h2>{sectionTitle}</h2>
+            <h2 className="text-2xl font-semibold mt-8">{sectionTitle}</h2>
+            <div className="mt-4 flex flex-row flex-wrap justify-between gap-8">
             {
                 showList?.map((show: any) => (
                     <ShowCard key={show.id} show={show}></ShowCard>
                 )
                 )
             }
+            </div>
+            
 
         </>
     )

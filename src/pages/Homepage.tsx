@@ -24,21 +24,19 @@ export default function Homepage() {
     const showsListSections = [
         {
             apiUrl: `https://api.themoviedb.org/3/tv/top_rated?api_key=${process.env.REACT_APP_API_KEY}`,
-            title: "Les mieux notés"
+            title: "Top rated"
         },
         {
             apiUrl: `https://api.themoviedb.org/3/tv/popular?api_key=${process.env.REACT_APP_API_KEY}`,
-            title: "Les plus populaires"
+            title: "Most popular"
         },
         {
             apiUrl: `https://api.themoviedb.org/3/trending/tv/day?api_key=${process.env.REACT_APP_API_KEY}`,
-            title: "Tendances"
+            title: "Trending"
         }
     ]
     return(
         <div>
-            <h1>Homepage</h1>
-
             {showsListSections.map((section, index) => (
                 <ShowListSection key={index} url={section.apiUrl} sectionTitle={section.title} />
             ))}
