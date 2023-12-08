@@ -53,7 +53,7 @@ export default function Header() {
             <Notification getNotification={setIsNotificationOpen} />
         )}
       </div>
-      <header className="flex items-center justify-between backdrop-blur-lg">
+      <header className="flex items-center justify-between">
         <NavLink to="/">
           <img className="w-16" src={flixlogo} alt="flix app logo" />
         </NavLink>
