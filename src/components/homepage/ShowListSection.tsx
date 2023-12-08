@@ -60,9 +60,6 @@ export default function ShowListSection({ url, sectionTitle }: Props) {
                         <ShowCardSkeleton />
                     ))
                 )
-                    
-                    
-                
             }
             </div>
             
