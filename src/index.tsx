@@ -39,6 +39,10 @@ const router = createBrowserRouter([
         element: <FavoritePage/>
       },
       {
+        path: "notification",
+        element: <FavoritePage/>
+      },
+      {
         path: "search",
         element: <SearchPage/>
       }

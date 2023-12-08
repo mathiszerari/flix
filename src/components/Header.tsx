@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import flixlogo from "../assets/images/flix-logo.svg"
 import { MdCalendarMonth } from "react-icons/md";
 import { MdFavorite } from "react-icons/md";
+import { MdNotificationsActive } from "react-icons/md";
 
 export default function Header() {
   const [user, setUser]: any = useState(null);
@@ -46,7 +47,9 @@ export default function Header() {
           // Contenu à afficher si l'utilisateur est connecté
           <>
             <NavLink to="calendar"><MdCalendarMonth className="w-6 h-6"/></NavLink>
-            <NavLink to="favorites"><MdFavorite className="w-6 h-6"/></NavLink>
+            <NavLink to="favorites"><MdFavorite className="w-6 h-6" /></NavLink>
+            <NavLink to="notification"><MdNotificationsActive className="w-6 h-6" /></NavLink>
+            
             <div className='w-12 h-12'>
               <NavLink to="profile">
                 <img src={`https://api.dicebear.com/7.x/thumbs/svg?seed=${email}`} alt=""
