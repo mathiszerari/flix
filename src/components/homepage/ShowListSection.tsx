@@ -54,6 +54,8 @@ export default function ShowListSection({ url, sectionTitle }: Props) {
                 ))
             }
             </div>
+            
+
         </>
     )
 }
