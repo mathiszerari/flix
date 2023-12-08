@@ -87,7 +87,7 @@ const Favorite = () => {
         {showsData.map((currentShow, index) => (
           <div key={index} className='show bg-gray-200 p-4 rounded-3xl'>
             <img src={currentShow?.image} alt={currentShow?.name} className='rounded-xl'/>
-            <h1>{currentShow?.name}</h1>
+            <span className='text-md text-black'>{currentShow?.name}</span>
           </div>
         ))}
       </div>

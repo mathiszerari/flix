@@ -3,6 +3,8 @@ import { auth } from "../firebase";
 import SearchBar from "./search/SearchBar";
 import { useEffect, useState } from "react";
 import flixlogo from "../assets/images/flix-logo.svg"
+import { MdCalendarMonth } from "react-icons/md";
+import { MdFavorite } from "react-icons/md";
 
 export default function Header() {
   const [user, setUser]: any = useState(null);
@@ -32,7 +34,6 @@ export default function Header() {
       </NavLink>
       <nav className="flex items-center justify-around mt-4 gap-4">
         <SearchBar/>
-        <NavLink to="calendar">Calendar</NavLink>
         {/* Condition pour afficher ou cacher les liens */}
         {email ? null : (
           <>
@@ -44,7 +45,8 @@ export default function Header() {
         {email ? (
           // Contenu à afficher si l'utilisateur est connecté
           <>
-            <NavLink to="favorites">Favorites</NavLink>
+            <NavLink to="calendar"><MdCalendarMonth className="w-6 h-6"/></NavLink>
+            <NavLink to="favorites"><MdFavorite className="w-6 h-6"/></NavLink>
             <div className='w-12 h-12'>
               <NavLink to="profile">
                 <img src={`https://api.dicebear.com/7.x/thumbs/svg?seed=${email}`} alt=""

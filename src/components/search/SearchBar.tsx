@@ -15,8 +15,10 @@ export default function SearchBar() {
     }
     return (
         <label>
-            <MdOutlineSearch/>
-            <input className="bg-transparent border border-white rounded-full px-2 py-1 plac" onKeyDown={(e)=>{handleKeyDown(e)}} type="text" value={searchText} placeholder="Search your shows" onChange={(e) => { setSearchText(e.target.value) }} />
+            <div className="flex cursor-text items-center gap-2 border border-white rounded-full px-2 py-1">
+                <MdOutlineSearch/>
+                <input style={{ all: "unset" }} onKeyDown={(e)=>{handleKeyDown(e)}} type="text" value={searchText} placeholder="Search your shows" onChange={(e) => { setSearchText(e.target.value) }} />
+            </div>
         </label>
     )
 }
