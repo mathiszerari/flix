@@ -48,12 +48,12 @@ const Profile = () => {
     <div className='profile mt-8'>
       {isLoading ? <Loader /> : (
         <>
-          <div className='flex flex-col ml-8'>
+          <div className='flex flex-col items-center ml-8'>
             <img src={`https://api.dicebear.com/7.x/thumbs/svg?seed=${email}`} alt=""
               className="w-32 h-32 rounded-full" />
-            <span className='text-xl text-gray-200 underline'>{email}</span>
+            <span className='text-xl text-gray-200 underline mt-10'>{email}</span>
           </div>
-          <div className='mt-16'>
+          {/* <div className='mt-16'>
             {isEditingEmail ? (
               <div>
                 <input
@@ -77,7 +77,7 @@ const Profile = () => {
             >
               Changement de mot de passe
             </button>
-          </div>
+          </div> */}
           <div className='flex flex-col mx-auto w-2/3 p-4 mt-16 bg-gray-300 rounded-3xl'>
             <span className='text-black text-2xl p-2'>Notification</span>
 
